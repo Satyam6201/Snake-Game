@@ -1,0 +1,89 @@
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg,#74ABE2,#5563DE);
+  font-family: 'Arial', sans-serif;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-details {
+  margin-bottom: 10px;
+}
+
+.game-details span {
+  margin-right: 10px;
+  font-weight: bold;
+  color: white;
+}
+
+.game-details button {
+  padding: 5px 15px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: #FF003D;
+  color: white;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+  margin-left: 5px;
+}
+
+.game-details button:disabled {
+  background-color: #B8C6DC;
+  cursor: not-allowed;
+}
+
+.play-board {
+  display: grid;
+  grid-template-columns: repeat(20, 20px);
+  grid-template-rows: repeat(20, 20px);
+  background-color: #1B262C;
+  border: 2px solid #0F4C75;
+  position: relative;
+}
+
+.snake {
+  background-color: #FF5733;
+  border-radius: 5px;
+  transition: all 0.2s linear;
+}
+
+.food {
+  background-color: #FFC300;
+  border-radius: 50%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.overlay-content {
+  text-align: center;
+  color: white;
+}
+
+.overlay-content button {
+  margin-top: 10px;
+  background-color: #FF5733;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+.hidden {
+  display: none;
+}
