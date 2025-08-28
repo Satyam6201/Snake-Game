@@ -15,7 +15,9 @@ The game includes **Start / Restart buttons**, **Game Over overlay**, and **on-s
 
 ---
 
-## 🛠️ Installation & Setup
-1. Clone the repository or download the project files:
-   ```bash
-   git clone https://github.com/your-username/snake-game.git
+## 📂 Project Structure
+Snake-Game/
+│── index.html      # Game layout
+│── style.css       # Styling
+│── app.js          # Game logic
+└── README.md       # Project documentation
