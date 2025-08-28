@@ -1,7 +1,7 @@
 # 🐍 Snake Game
 
 A simple **classic Snake Game** built with **HTML, CSS, and JavaScript**.  
-The game includes **Start / Restart buttons**, **Game Over overlay**, and **on-screen control buttons** (Up, Down, Left, Right) for easy play on both **desktop and mobile** devices.
+The game includes **Start / Restart buttons**, **Game Over overlay** for easy play on both **desktop and mobile** devices.
 
 ---
 
@@ -9,8 +9,7 @@ The game includes **Start / Restart buttons**, **Game Over overlay**, and **on-s
 - 🎮 Classic snake movement and gameplay  
 - 🍎 Food spawns randomly on the grid  
 - ⏯️ Start button to begin the game  
-- 🔄 Game Over overlay with Restart button  
-- 🕹️ On-screen arrow buttons (Up, Down, Left, Right) for mobile support  
+- 🔄 Game Over overlay with Restart button   
 - ⌨️ Keyboard support (Arrow keys) for desktop play  
 
 ---
@@ -23,3 +22,15 @@ Snake-Game/
 │── app.js          # Game logic
 └── README.md       # Project documentation
 ```
+## 🔧 Technologies Used
+
+- HTML5 Canvas for rendering
+- CSS3 for styling
+- JavaScript (ES6) for game logic
+
+## 🏆 Future Improvements
+
+-  Score tracking
+-  High score saving (localStorage)
+-  Different difficulty levels (Easy, Medium, Hard)
+-  Background music & sound effects
