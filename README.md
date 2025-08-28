@@ -16,8 +16,10 @@ The game includes **Start / Restart buttons**, **Game Over overlay**, and **on-s
 ---
 
 ## 📂 Project Structure
+```
 Snake-Game/
 │── index.html      # Game layout
 │── style.css       # Styling
 │── app.js          # Game logic
 └── README.md       # Project documentation
+```
