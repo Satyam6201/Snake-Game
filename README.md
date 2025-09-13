@@ -31,6 +31,8 @@ Snake-Game/
 - HTML5 Canvas for rendering
 - CSS3 for styling
 - JavaScript (ES6) for game logic
+  
+---
 
 ## 🏆 Future Improvements
 
