@@ -26,6 +26,9 @@ Snake-Game/
 │── app.js          # Game logic
 └── README.md       # Project documentation
 ```
+
+--- 
+
 ## 🔧 Technologies Used
 
 - HTML5 Canvas for rendering
