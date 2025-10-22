@@ -3,67 +3,37 @@ const scoreElement = document.querySelector(".score");
 const highScoreElement = document.querySelector(".high-score");
 const startBtn = document.querySelector(".start-btn");
 const pauseBtn = document.querySelector(".pause-btn");
-const overlay = document.querySelector(".overlay");
 const restartBtn = document.querySelector(".restart-btn");
+const overlay = document.querySelector(".overlay");
+const finalScore = document.querySelector(".final-score");
+const difficultySelect = document.querySelector(".difficulty");
+
+const eatSound = document.getElementById("eat-sound");
+const moveSound = document.getElementById("move-sound");
+const gameoverSound = document.getElementById("gameover-sound");
 
 let snakeX = 10, snakeY = 10;
-let foodX, foodY;
 let snakeBody = [];
+let foodX, foodY;
 let velocityX = 0, velocityY = 0;
-let speed = 200;
-let score = 0, highScore = 0;
+let speed = 120;
+let score = 0, highScore = localStorage.getItem("highScore") || 0;
 let setIntervalId;
 
+highScoreElement.innerText = `High Score: ${highScore}`;
+
 document.addEventListener("keydown", changeDirection);
+startBtn.addEventListener("click", startGame);
 pauseBtn.addEventListener("click", pauseGame);
 restartBtn.addEventListener("click", restartGame);
-startBtn.addEventListener("click", startGame);
+difficultySelect.addEventListener("change", e => speed = parseInt(e.target.value));
 
 function startGame() {
   updateFoodPosition();
-  renderInitial();
+  renderGame();
   setIntervalId = setInterval(initGame, speed);
   startBtn.disabled = true;
   pauseBtn.disabled = false;
-}
-
-function renderInitial() {
-  playBoard.innerHTML = `<div class="snake" style="grid-area:${snakeY}/${snakeX}"></div>
-                         <div class="food" style="grid-area:${foodY}/${foodX}"></div>`;
-}
-
-function initGame() {
-  snakeX += velocityX;
-  snakeY += velocityY;
-
-  if (snakeX <= 0 || snakeX > 20 || snakeY <= 0 || snakeY > 20 || snakeCollision()) {
-    gameOver();
-    return;
-  }
-
-  if (snakeX === foodX && snakeY === foodY) {
-    score++;
-    scoreElement.innerText = `Score: ${score}`;
-    if (score > highScore) highScore = score;
-    highScoreElement.innerText = `High Score: ${highScore}`;
-    snakeBody.push([foodX, foodY]);
-    updateFoodPosition();
-    speed = speed > 50 ? speed - 5 : speed;
-    clearInterval(setIntervalId);
-    setIntervalId = setInterval(initGame, speed);
-  }
-
-  for (let i = snakeBody.length - 1; i > 0; i--) {
-    snakeBody[i] = snakeBody[i - 1];
-  }
-  if (snakeBody.length) snakeBody[0] = [snakeX, snakeY];
-
-  let html = `<div class="snake" style="grid-area:${snakeY}/${snakeX}"></div>`;
-  for (let i = 0; i < snakeBody.length; i++) {
-    html += `<div class="snake" style="grid-area:${snakeBody[i][1]}/${snakeBody[i][0]}"></div>`;
-  }
-  html += `<div class="food" style="grid-area:${foodY}/${foodX}"></div>`;
-  playBoard.innerHTML = html;
 }
 
 function updateFoodPosition() {
@@ -71,15 +41,53 @@ function updateFoodPosition() {
   foodY = Math.floor(Math.random() * 20) + 1;
 }
 
+function initGame() {
+  snakeX += velocityX;
+  snakeY += velocityY;
+
+  if (snakeX <= 0 || snakeY <= 0 || snakeX > 20 || snakeY > 20 || collision()) {
+    gameoverSound.play();
+    gameOver();
+    return;
+  }
+
+  if (snakeX === foodX && snakeY === foodY) {
+    eatSound.play();
+    score++;
+    scoreElement.innerText = `Score: ${score}`;
+    if (score > highScore) {
+      highScore = score;
+      localStorage.setItem("highScore", highScore);
+    }
+    highScoreElement.innerText = `High Score: ${highScore}`;
+    snakeBody.push([foodX, foodY]);
+    updateFoodPosition();
+    showScorePopup();
+  }
+
+  for (let i = snakeBody.length - 1; i > 0; i--) snakeBody[i] = snakeBody[i - 1];
+  snakeBody[0] = [snakeX, snakeY];
+
+  renderGame();
+}
+
+function renderGame() {
+  let html = `<div class="food" style="grid-area:${foodY}/${foodX}"></div>`;
+  for (let [x, y] of snakeBody)
+    html += `<div class="snake" style="grid-area:${y}/${x}"></div>`;
+  playBoard.innerHTML = html;
+}
+
 function changeDirection(e) {
+  moveSound.play();
   if (e.key === "ArrowUp" && velocityY !== 1) { velocityX = 0; velocityY = -1; }
   else if (e.key === "ArrowDown" && velocityY !== -1) { velocityX = 0; velocityY = 1; }
   else if (e.key === "ArrowLeft" && velocityX !== 1) { velocityX = -1; velocityY = 0; }
   else if (e.key === "ArrowRight" && velocityX !== -1) { velocityX = 1; velocityY = 0; }
 }
 
-function snakeCollision() {
-  return snakeBody.some(segment => segment[0] === snakeX && segment[1] === snakeY);
+function collision() {
+  return snakeBody.slice(1).some(seg => seg[0] === snakeX && seg[1] === snakeY);
 }
 
 function pauseGame() {
@@ -96,37 +104,27 @@ function pauseGame() {
 function gameOver() {
   clearInterval(setIntervalId);
   overlay.classList.remove("hidden");
-  startBtn.disabled = false;
+  finalScore.innerText = `Your Score: ${score}`;
   pauseBtn.disabled = true;
+  startBtn.disabled = false;
   velocityX = velocityY = 0;
 }
 
 function restartGame() {
+  overlay.classList.add("hidden");
   snakeX = 10; snakeY = 10;
   snakeBody = [];
+  velocityX = velocityY = 0;
   score = 0;
-  speed = 200;
-  scoreElement.innerText = `Score: ${score}`;
-  overlay.classList.add("hidden");
+  scoreElement.innerText = "Score: 0";
   startGame();
 }
 
-// Mobile Swipe Controls
-let touchStartX, touchStartY;
-playBoard.addEventListener("touchstart", e => {
-  touchStartX = e.changedTouches[0].screenX;
-  touchStartY = e.changedTouches[0].screenY;
-});
-playBoard.addEventListener("touchend", e => {
-  let touchEndX = e.changedTouches[0].screenX;
-  let touchEndY = e.changedTouches[0].screenY;
-  let diffX = touchEndX - touchStartX;
-  let diffY = touchEndY - touchStartY;
-  if (Math.abs(diffX) > Math.abs(diffY)) {
-    if (diffX > 0 && velocityX !== -1) { velocityX = 1; velocityY = 0; }
-    else if (diffX < 0 && velocityX !== 1) { velocityX = -1; velocityY = 0; }
-  } else {
-    if (diffY > 0 && velocityY !== -1) { velocityX = 0; velocityY = 1; }
-    else if (diffY < 0 && velocityY !== 1) { velocityX = 0; velocityY = -1; }
-  }
-});
+function showScorePopup() {
+  const popup = document.createElement("div");
+  popup.classList.add("score-popup");
+  popup.textContent = "+1";
+  popup.style.gridArea = `${foodY}/${foodX}`;
+  playBoard.appendChild(popup);
+  setTimeout(() => popup.remove(), 800);
+}
