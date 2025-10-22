@@ -3,28 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Snake Game</title>
-  <link rel="icon" href="image">
+  <title>Snake Game Deluxe</title>
+  <link rel="icon" href="images/snake-icon.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="game-container">
+    <h1 class="title">🐍 Snake Game Deluxe</h1>
+
     <div class="game-details">
       <span class="score">Score: 0</span>
       <span class="high-score">High Score: 0</span>
+      <select class="difficulty">
+        <option value="200">Easy</option>
+        <option value="120" selected>Medium</option>
+        <option value="70">Hard</option>
+      </select>
       <button class="start-btn">Start</button>
       <button class="pause-btn" disabled>Pause</button>
     </div>
+
     <div class="play-board"></div>
 
     <div class="overlay hidden">
       <div class="overlay-content">
-        <h1>Game Over</h1>
+        <h1>Game Over 💀</h1>
+        <p class="final-score"></p>
         <button class="restart-btn">Restart</button>
       </div>
     </div>
   </div>
-  
+
+  <audio id="eat-sound" src="sounds/eat.mp3"></audio>
+  <audio id="gameover-sound" src="sounds/gameover.mp3"></audio>
+  <audio id="move-sound" src="sounds/move.mp3"></audio>
+
   <script src="app.js"></script>
 </body>
 </html>
