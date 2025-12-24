@@ -1,145 +1,109 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+* {
+  box-sizing: border-box;
+  font-family: 'Orbitron', sans-serif;
+}
 
 body {
   margin: 0;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background: radial-gradient(circle at center, #1e1e2f, #0a0a12);
-  font-family: 'Orbitron', sans-serif;
-  overflow: hidden;
-}
-
-.game-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background: radial-gradient(circle, #1e1e2f, #05050b);
   color: #fff;
 }
 
+.game-container {
+  text-align: center;
+}
+
+/* Title */
 .title {
-  font-size: 2rem;
-  color: #00ffe1;
-  text-shadow: 0 0 15px #00ffe1;
+  color: #00ffcc;
+  text-shadow: 0 0 15px #00ffcc;
   margin-bottom: 10px;
-  animation: glow 2s infinite alternate;
 }
 
-@keyframes glow {
-  from { text-shadow: 0 0 10px #00ffe1; }
-  to { text-shadow: 0 0 25px #ff00ff; }
-}
-
+/* HUD */
 .game-details {
-  margin-bottom: 15px;
   display: flex;
-  align-items: center;
   gap: 10px;
+  justify-content: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
 }
 
 .game-details span {
-  font-size: 1rem;
+  background: rgba(255,255,255,0.1);
+  padding: 6px 12px;
+  border-radius: 10px;
 }
 
-.difficulty, .game-details button {
-  background: linear-gradient(45deg, #ff00ff, #00ffe1);
+/* Controls */
+button, select {
+  background: linear-gradient(135deg, #00ffcc, #00aa88);
   border: none;
-  padding: 8px 15px;
   border-radius: 8px;
-  color: white;
+  padding: 6px 14px;
+  color: #000;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.game-details button:hover, .difficulty:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 10px #00ffe1;
-}
-
-.game-details button:disabled {
+button:disabled {
   background: #555;
+  color: #ccc;
   cursor: not-allowed;
 }
 
+/* Board */
 .play-board {
   width: 400px;
   height: 400px;
   display: grid;
   grid-template-columns: repeat(20, 1fr);
   grid-template-rows: repeat(20, 1fr);
-  background: rgba(255,255,255,0.05);
-  border: 2px solid #00ffe1;
-  border-radius: 15px;
-  box-shadow: 0 0 30px rgba(0,255,255,0.3);
+  background: #0a0a12;
+  border: 2px solid #00ffcc;
+  border-radius: 12px;
+  margin: auto;
   position: relative;
 }
 
+/* Snake (Realistic segmented body) */
 .snake {
-  background: linear-gradient(135deg, #00ffe1, #ff00ff);
-  box-shadow: 0 0 8px #00ffe1;
-  border-radius: 5px;
-  transition: 0.1s linear;
+  background: linear-gradient(135deg, #00ff88, #008855);
+  border-radius: 6px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
 }
 
+.snake.head {
+  background: linear-gradient(135deg, #33ff99, #00aa66);
+}
+
+/* Food */
 .food {
-  background: radial-gradient(circle, #ffea00, #ff9900);
+  background: radial-gradient(circle, #ff5555, #aa0000);
   border-radius: 50%;
-  box-shadow: 0 0 12px #ffea00;
+  animation: pulse 1s infinite alternate;
 }
 
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.15); }
+}
+
+/* Overlay */
 .overlay {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  inset: 0;
+  background: rgba(0,0,0,0.8);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  z-index: 10;
-}
-
-.overlay-content h1 {
-  font-size: 2.5rem;
-  color: #ff4444;
-  text-shadow: 0 0 20px red;
-}
-
-.overlay-content p {
-  font-size: 1.2rem;
-  margin-top: 10px;
-}
-
-.overlay-content button {
-  margin-top: 15px;
-  background: linear-gradient(135deg, #00ffe1, #ff00ff);
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  color: white;
-  transition: 0.2s;
-}
-
-.overlay-content button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px #ff00ff;
 }
 
 .hidden {
   display: none;
-}
-
-.score-popup {
-  position: absolute;
-  font-size: 0.8rem;
-  color: #ffea00;
-  animation: floatUp 1s ease-out forwards;
-}
-
-@keyframes floatUp {
-  0% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-20px); }
 }
